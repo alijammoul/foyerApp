@@ -1,7 +1,8 @@
-package com.sampleapp.ray.lebanonfoyers
+package com.sampleapp.ray.lebanonfoyers.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.sampleapp.ray.lebanonfoyers.R
 
 class MainActivity : AppCompatActivity() {
 
