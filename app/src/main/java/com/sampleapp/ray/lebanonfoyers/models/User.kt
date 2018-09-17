@@ -1,8 +1,8 @@
 package com.sampleapp.ray.lebanonfoyers.models
 
-data class User(val fullName : String="",
+data class User(val id : String ="",
+                val fullName : String="",
                 val email : String ="",
-                val phoneNumber :Int =0,
-                val password :String ="") {
+                val phoneNumber :Int =0) {
 
 }

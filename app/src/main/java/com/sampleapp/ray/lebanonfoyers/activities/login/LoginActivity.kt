@@ -1,5 +1,6 @@
 package com.sampleapp.ray.lebanonfoyers.activities.login
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -16,14 +17,16 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.view.*
 import com.google.android.gms.tasks.Task
 import android.support.annotation.NonNull
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import com.sampleapp.ray.lebanonfoyers.R.id.email
-
-
+import com.sampleapp.ray.lebanonfoyers.models.User
 
 
 class LoginActivity : AppCompatActivity() {
     private var isInLoginMode = true // check current mode status
     private lateinit var firebaseAuthentication: FirebaseAuth // fix lateinit later
+    private lateinit var firestoreDatabase:FirebaseFirestore
     private var firebaseUser: FirebaseUser? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,11 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         firebaseUser = firebaseAuthentication.currentUser
 
-
+        if (firebaseUser != null) {
+            val myIntent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(myIntent)
+            finish()
+        }
     }
     //called when textView is clicked
     fun onClick(view: View) {
@@ -82,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(this, "Passwords don't match", Toast.LENGTH_SHORT).show()
                         }else{
                             createUser(semail.toString(),spassword.toString())
-                            createFireStoreUser()
+                            createFireStoreUser(sname.toString(),semail.toString(),Integer.parseInt(sphoneNumber.toString()))
                         }
                     }else{
                         Toast.makeText(this, "Enter all fields", Toast.LENGTH_SHORT).show()
@@ -91,7 +98,26 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun createFireStoreUser() {
+    private fun createFireStoreUser(name : String ,email:String,phoneNumber : Int) {
+
+        val id = firebaseAuthentication.currentUser?.uid
+        val user = id?.let { User(it,name,email,phoneNumber) }
+
+        firestoreDatabase = FirebaseFirestore.getInstance()
+        user?.let {
+            firestoreDatabase.collection("users") .add(it)
+                .addOnSuccessListener { documentReference ->
+                    Toast.makeText(this, "Welcome ${user.fullName}", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
+
+                }
+        }
 
     }
 

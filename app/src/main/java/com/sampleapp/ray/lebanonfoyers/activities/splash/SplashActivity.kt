@@ -1,4 +1,4 @@
-package com.sampleapp.ray.lebanonfoyers.activities
+package com.sampleapp.ray.lebanonfoyers.activities.splash
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
