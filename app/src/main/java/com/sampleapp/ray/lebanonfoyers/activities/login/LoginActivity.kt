@@ -3,6 +3,7 @@ package com.sampleapp.ray.lebanonfoyers.activities.login
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
@@ -13,6 +14,11 @@ import com.sampleapp.ray.lebanonfoyers.R
 import com.sampleapp.ray.lebanonfoyers.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.view.*
+import com.google.android.gms.tasks.Task
+import android.support.annotation.NonNull
+import com.sampleapp.ray.lebanonfoyers.R.id.email
+
+
 
 
 class LoginActivity : AppCompatActivity() {
@@ -54,24 +60,54 @@ class LoginActivity : AppCompatActivity() {
     }
         // called when button is clicked
     fun onLoginSignup(view: View) {
+            val semail = email.text
+            val spassword = password.text
+            val sname = fullname.text
+            val sphoneNumber = phonenumber.text
+            val sconfirmPassword = confirmpassword.text
         if (isInLoginMode) {
-            val email = view.email.text.toString()
-            val password = view.password.text.toString()
 
-            if((email.length==0) or (password.length==0)){
+            if((semail.toString().length==0) or (spassword.toString().length==0)){
                 Toast.makeText(this, "Enter email and Password", Toast.LENGTH_SHORT).show()
             }else{
-                signinUser(email ,password)
+                signinUser(semail.toString().trim() ,spassword.toString().trim())
             }
 
         } else {
             //signup successful
+            val passwordsMatch= passwordsMatch(spassword.toString().trim(),sconfirmPassword.toString().trim())
+            val fieldsAreNotEmpty=fieldsAreNotEmpty(sname,semail,spassword,sconfirmPassword,sphoneNumber)
+                    if(fieldsAreNotEmpty) {
+                        if (!passwordsMatch) {
+                            Toast.makeText(this, "Passwords don't match", Toast.LENGTH_SHORT).show()
+                        }else{
+                            createUser(semail.toString(),spassword.toString())
+                            createFireStoreUser()
+                        }
+                    }else{
+                        Toast.makeText(this, "Enter all fields", Toast.LENGTH_SHORT).show()
+                    }
+
         }
+    }
+
+    private fun createFireStoreUser() {
+
+    }
+
+    private fun fieldsAreNotEmpty(name: Editable, email: Editable, password: Editable, confirmPassword: Editable, phoneNumber: Editable): Boolean {
+        return !((email.isEmpty()) or (password.isEmpty()) or (name.isEmpty()) or (confirmPassword.isEmpty()) or (phoneNumber.isEmpty()))
+    }
+
+    private fun passwordsMatch(password: String, confirmPassword: String): Boolean {
+        if(password.equals(confirmPassword))
+            return true
+        return false
     }
 
     private fun signinUser(email: String, password: String) {
         firebaseAuthentication.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
+                .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         firebaseUser = firebaseAuthentication.getCurrentUser()
@@ -82,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(this, "Authentication failed",Toast.LENGTH_SHORT).show()
                     }
-                })
+                }
     }
 
     private fun createUser(email: String, password: String) {
@@ -94,7 +130,7 @@ class LoginActivity : AppCompatActivity() {
 
                     } else {
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(this, "Authentication failed",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Failed to create user",Toast.LENGTH_SHORT).show()
                     }
 
                 })
