@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LebanonFoyers</string>
+    <string name="app_name">Lebanon Foyers</string>
     <string name="AppName">Lebanon Foyers</string>
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -8,4 +8,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="instagramAccount">https://www.instagram.com/ali_jamhs</string>
+    <string name="facebookAccount">https://www.facebook.com/ali.jammoul.393</string>
+    <string name="chooserText">Complete action using</string>
 </resources>

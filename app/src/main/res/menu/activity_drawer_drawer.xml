@@ -5,34 +5,51 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_myFoyer"
+            android:icon="@drawable/ic_home_blue"
+            android:title="My Foyer" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_account_circle_green"
+            android:title="Profile" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_location_on_deep_purple"
+            android:title="Search foyers by Map" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Follow us on social media">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_instagram"
+                android:icon="@drawable/ic_instagram"
+                android:title="Instagram" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_facebook"
+                android:icon="@drawable/ic_facebook"
+                android:title="Facebook" />
         </menu>
     </item>
 
+    <item android:title="Feedback">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_problem"
+                    android:icon="@drawable/ic_bug_report_black"
+                    android:title="Report a problem" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Logout of your account">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_power_settings_new"
+                    android:title="Logout" />
+            </group>
+        </menu>
+    </item>
 </menu>
