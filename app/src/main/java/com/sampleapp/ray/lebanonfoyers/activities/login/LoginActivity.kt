@@ -20,6 +20,7 @@ import android.support.annotation.NonNull
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sampleapp.ray.lebanonfoyers.R.id.email
+import com.sampleapp.ray.lebanonfoyers.activities.DrawerActivity
 import com.sampleapp.ray.lebanonfoyers.models.User
 
 
@@ -39,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseUser = firebaseAuthentication.currentUser
 
         if (firebaseUser != null) {
-            val myIntent = Intent(this@LoginActivity, MainActivity::class.java)
+            val myIntent = Intent(this@LoginActivity, DrawerActivity::class.java)
             startActivity(myIntent)
             finish()
         }
@@ -108,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
             firestoreDatabase.collection("users") .add(it)
                 .addOnSuccessListener { documentReference ->
                     Toast.makeText(this, "Welcome ${user.fullName}", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(applicationContext, DrawerActivity::class.java)
                     startActivity(intent)
                     finish()
 
@@ -137,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         firebaseUser = firebaseAuthentication.getCurrentUser()
-                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        val intent = Intent(applicationContext, DrawerActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
